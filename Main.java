@@ -42,4 +42,18 @@ public class Main {
         }
         return true;
     }
+
+    public static String Converter(String expressao){
+        expressao = expressao.replaceAll(" ", "");
+        expressao = expressao.toUpperCase();
+        String[] operadores = {"(",")","+","-","*","/","^"};
+        Pilha aux = new Pilha();
+        String[] textoAux = expressao.split("");
+        for(byte i=0;i<expressao.length();i++){
+            for(byte j=0;j<6;j++){
+                if(textoAux[i].equals(operadores[j]))aux.push(textoAux[i]);
+            }
+        }
+        return "";
+    }
 }
