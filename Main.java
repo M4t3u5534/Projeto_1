@@ -68,44 +68,41 @@ public class Main {
         expressao = expressao.toUpperCase();
         String saida = "";
         Pilha aux = new Pilha();
-        boolean operador = false;
-        if((int)expressao.charAt(0) < 65 || (int)expressao.charAt(0) > 90){
-            operador = true;
-        }
         String[] textoAux = expressao.split("");
-        boolean inicioPilha = false;
-        if(operador){
-            aux.push(textoAux[0]);
-            inicioPilha = true;
-        }
-        byte topo = -1;
-        byte elemento = -1;
+        byte topo = 2;
         for(byte i=0;i<expressao.length();i++){
-            if(inicioPilha){
-                if(aux.topo() == "*" || aux.topo() == "/"){
+            byte elemento = -1;
+            boolean operador = false;
+            if(!aux.isEmpty()){
+                if(aux.topo().equals("*") || aux.topo().equals("/")){
                     topo = 1;
-                }else if(aux.topo() == "+" || aux.topo() == "-"){
+                }else if(aux.topo().equals("+") || aux.topo().equals("-")){
                     topo = 0;
                 }
             }
-            if(textoAux[i] == "*" || textoAux[i] == "/"){
+            if(textoAux[i].equals("*") || textoAux[i].equals("/")){
                 elemento = 1;
-            }else if(textoAux[i] == "+" || textoAux[i] == "-"){
+                operador = true;
+            }else if(textoAux[i].equals("+") || textoAux[i].equals("-")){
                 elemento = 0;
+                operador = true;
             }else if(textoAux[i].equals("(") || textoAux[i].equals("^")){
                 aux.push(textoAux[i]);
             }else if(textoAux[i].equals(")")){
                 do {
                     saida += aux.pop();
-                }while (aux.topo() != "(");{}
+                }while (!aux.topo().equals("("));{}
                 aux.pop();
             }else if(elemento == -1){
                 saida += textoAux[i];
-            }else if(topo > elemento){
+            }
+            if(operador){
+                if(topo > elemento){
                     aux.push(textoAux[i]);
-            }else{
-                saida += aux.pop();
-                aux.push(textoAux[i]);
+                }else{
+                    saida += aux.pop();
+                    aux.push(textoAux[i]);
+                }
             }
         }
         while(!aux.isEmpty()){
