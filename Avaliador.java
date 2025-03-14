@@ -1,44 +1,18 @@
 public class Avaliador {
     private String infixa;
-    private String posfixa;
-    private String expressao;
-    private String[] dicionario = new String[50];
-    private byte indice = 0;
-
-    public Avaliador(String expressao){
-        this.infixa = expressao;
-    }
+    private String posfixa = "";
+    private String expressao = "";
 
     public Avaliador(){
-        this("");
+        this.infixa = "";
     }
 
     public void setExpressao(String expressao) {
         this.infixa = expressao;
     }
 
-    public void escrever(String variavel){
-        variavel = variavel.replaceAll(" ","");
-        String[] aux = variavel.split("=");
-        for(int i=0;i<2;i++){
-            this.dicionario[this.indice] = aux[i];
-            this.indice++;
-        }
-        return;
-    }
-
-    public int valores(String variavel)throws Exception{
-        for(int i=0;i<this.indice;i+=2){
-            if (variavel.equals(this.dicionario[i])) {
-                return Integer.parseInt(this.dicionario[i+1]);
-            }
-        }
-        throw new Exception("Variavel nao definida!");
-    }
-
     public boolean verificar(){
-        this.expressao = this.infixa.replaceAll(" ", "");
-        this.expressao = this.expressao.toUpperCase();
+        this.expressao = this.infixa.toUpperCase();
         char[] operadores = {'(',')','+','-','*','/','^'};
         byte parenteses = 0;
         boolean operador = false;
@@ -75,7 +49,7 @@ public class Avaliador {
     public String converter()throws Exception{
         Pilha aux = new Pilha();
         String[] textoAux = this.expressao.split("");
-        byte topo = 2;
+        byte topo = -1;
         for(byte i=0;i<this.expressao.length();i++){
             byte elemento = -1;
             boolean operador = false;
@@ -104,9 +78,9 @@ public class Avaliador {
             }
             if(operador){
                 if(topo > elemento){
+                    this.posfixa += aux.pop();
                     aux.push(textoAux[i]);
                 }else{
-                    this.posfixa += aux.pop();
                     aux.push(textoAux[i]);
                 }
             }
