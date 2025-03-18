@@ -90,4 +90,25 @@ public class Avaliador {
         }
         return this.posfixa;
     }
+
+    public int resolver(){
+        try {
+            Pilha aux = new Pilha();
+            String[] posfixa = this.posfixa.split("");
+            String[] operadores = {"+","-","*","/"};
+            boolean operador = false;
+            for(int i=0;i<this.posfixa.length();i++){
+                for(int j=0;j<4;j++){
+                    if(posfixa[i] == operadores[j]){
+                        operador = true;
+                        break;
+                    }
+                }
+                if(!operador){
+                    aux.push("" + Repl.valores(posfixa[i]));
+                }
+            }
+            return 0;
+        } catch (Exception e) {return 0;}
+    }
 }

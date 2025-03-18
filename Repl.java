@@ -25,7 +25,7 @@ public class Repl {
     public void Vars(){
         boolean loop = false;
         for(int i=0;i<indice;i+=2){
-            System.out.println(dicionario[indice] + " = " + dicionario[indice+1]);
+            System.out.println(dicionario[i] + " = " + dicionario[i+1]);
             loop = true;
         }
         if(!loop)System.out.println("Nenhuma variavel definida");
