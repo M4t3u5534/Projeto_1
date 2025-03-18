@@ -27,6 +27,7 @@ public class Main {
                     System.out.println("Encerrando gravação... (REC: " + --gravados + "/10)");
                     gravando = false;
                     invalido = true;
+                    gravados = 1;
                 }
                 if(!invalido){
                     repl.rec(verificacao, gravados);
