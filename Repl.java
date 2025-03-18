@@ -4,6 +4,7 @@ public class Repl {
     Pilha gravacao = new Pilha();
 
     public void escrever(String variavel){
+        variavel = variavel.toUpperCase();
         String[] aux = variavel.split("=");
         for(int i=0;i<2;i++){
             this.dicionario[this.indice] = aux[i];

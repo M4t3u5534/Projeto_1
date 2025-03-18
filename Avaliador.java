@@ -91,17 +91,17 @@ public class Avaliador {
         return this.posfixa;
     }
 
-    public String resolver(){
+    public String resolver(Repl repl){
         try {
-            Repl repl = new Repl();
             Pilha aux = new Pilha();
+            converter();
             String[] posfixa = this.posfixa.split("");
             String[] operadores = {"+","-","*","/"};
             boolean operador;
             for(int i=0;i<this.posfixa.length();i++){
                 operador = false;
                 for(int j=0;j<4;j++){
-                    if(posfixa[i] == operadores[j]){
+                    if(posfixa[i].equals(operadores[j])){
                         operador = true;
                         break;
                     }
@@ -109,12 +109,12 @@ public class Avaliador {
                 if(!operador){
                     aux.push("" + repl.valores(posfixa[i]));
                 }else{
-                    if(posfixa[i] == "+"){
+                    if(posfixa[i].equals("+")){
                         aux.push("" + (Integer.parseInt(aux.pop()) + Integer.parseInt(aux.pop())));
-                    }else if(posfixa[i] == "-"){
+                    }else if(posfixa[i].equals("-")){
                         int subtrator = Integer.parseInt(aux.pop());
                         aux.push("" + (Integer.parseInt(aux.pop()) - subtrator));
-                    }else if(posfixa[i] == "*"){
+                    }else if(posfixa[i].equals("*")){
                         aux.push("" + (Integer.parseInt(aux.pop()) * Integer.parseInt(aux.pop())));
                     }else{
                         int divisor = Integer.parseInt(aux.pop());
