@@ -11,39 +11,51 @@ public class Avaliador {
         this.infixa = expressao;
     }
 
-    public boolean verificar(){
+    public boolean verificar()throws Exception{
         this.expressao = this.infixa.toUpperCase();
         char[] operadores = {'(',')','+','-','*','/','^'};
         byte parenteses = 0;
         boolean operador = false;
-        for(byte i=0;i<this.expressao.length();i++){
-            for(byte j=0;j<6;j++){
-                if(this.expressao.charAt(i) == operadores[j]){
-                    operador = true;
-                    break;
-                }
-            }
-            if(this.expressao.charAt(i) == '(')parenteses++;
-            else if(this.expressao.charAt(i) == ')')parenteses--;
-            if(!operador && ((int)this.expressao.charAt(i) < 65 || (int)this.expressao.charAt(i) > 90)){
-                return false;
-            }
+        if(this.expressao.length() % 2 == 0){
+            return false;
         }
-            for(byte i=1;i<this.expressao.length()+1;i++){
+        else{
+            for(byte i=0;i<this.expressao.length();i++){
+                operador = false;
                 for(byte j=0;j<6;j++){
-                    if(this.expressao.charAt(i-1) == operadores[j]){
+                    if(this.expressao.charAt(i) == operadores[j]){
                         operador = true;
                         break;
                     }
                 }
-                if(i % 2 == 0 && !operador){
+                if(this.expressao.charAt(i) == '(')parenteses++;
+                else if(this.expressao.charAt(i) == ')')parenteses--;
+                if(!operador && ((int)this.expressao.charAt(i) < 65 || (int)this.expressao.charAt(i) > 90)){
+                    throw new Exception();
+                }
+            }
+            for(byte i=1;i<this.expressao.length();i+=2){
+                operador = false;
+                for(byte j=0;j<6;j++){
+                    if(this.expressao.charAt(i-1) == operadores[j]){
+                        operador = true;
+                        break;
+                    }else if(i<this.expressao.length()-1){
+                        if(this.expressao.charAt(i) == operadores[j]){
+                            operador = true;
+                            break;
+                        }
+                    }
+                }
+                if(!operador){
                     return false;
                 }
             }
-        if(parenteses != 0){
-            return false;
+            if(parenteses != 0){
+                return false;
+            }
+            return true;
         }
-        return true;
     }
 
     public String converter()throws Exception{
@@ -91,38 +103,44 @@ public class Avaliador {
         return this.posfixa;
     }
 
-    public String resolver(Repl repl){
-        try {
-            Pilha aux = new Pilha();
-            converter();
-            String[] posfixa = this.posfixa.split("");
-            String[] operadores = {"+","-","*","/"};
-            boolean operador;
-            for(int i=0;i<this.posfixa.length();i++){
-                operador = false;
-                for(int j=0;j<4;j++){
-                    if(posfixa[i].equals(operadores[j])){
-                        operador = true;
-                        break;
-                    }
-                }
-                if(!operador){
-                    aux.push("" + repl.valores(posfixa[i]));
-                }else{
-                    if(posfixa[i].equals("+")){
-                        aux.push("" + (Integer.parseInt(aux.pop()) + Integer.parseInt(aux.pop())));
-                    }else if(posfixa[i].equals("-")){
-                        int subtrator = Integer.parseInt(aux.pop());
-                        aux.push("" + (Integer.parseInt(aux.pop()) - subtrator));
-                    }else if(posfixa[i].equals("*")){
-                        aux.push("" + (Integer.parseInt(aux.pop()) * Integer.parseInt(aux.pop())));
-                    }else{
-                        int divisor = Integer.parseInt(aux.pop());
-                        aux.push("" + (Integer.parseInt(aux.pop()) / divisor));
-                    }
+    public String resolver(Repl repl)throws Exception{
+        boolean excessao = false;
+        Pilha aux = new Pilha();
+        converter();
+        String[] posfixa = this.posfixa.split("");
+        String[] operadores = {"+","-","*","/"};
+        boolean operador;
+        for(int i=0;i<this.posfixa.length();i++){
+            operador = false;
+            for(int j=0;j<4;j++){
+                if(posfixa[i].equals(operadores[j])){
+                    operador = true;
+                    break;
                 }
             }
-            return aux.pop();
-        } catch (Exception e) {return "";}
+            if(!operador){
+                try {
+                    aux.push("" + repl.valores(posfixa[i]));
+                }catch(Exception e){
+                    excessao = true;
+                }
+            }else{
+                if(posfixa[i].equals("+")){
+                    aux.push("" + (Integer.parseInt(aux.pop()) + Integer.parseInt(aux.pop())));
+                }else if(posfixa[i].equals("-")){
+                    int subtrator = Integer.parseInt(aux.pop());
+                    aux.push("" + (Integer.parseInt(aux.pop()) - subtrator));
+                }else if(posfixa[i].equals("*")){
+                    aux.push("" + (Integer.parseInt(aux.pop()) * Integer.parseInt(aux.pop())));
+                }else{
+                    int divisor = Integer.parseInt(aux.pop());
+                    aux.push("" + (Integer.parseInt(aux.pop()) / divisor));
+                }
+            }
+        }
+        if(excessao){
+            throw new Exception();
+        }
+        return aux.pop();
     }
 }
