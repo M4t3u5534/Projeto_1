@@ -91,13 +91,15 @@ public class Avaliador {
         return this.posfixa;
     }
 
-    public int resolver(){
+    public String resolver(){
         try {
+            Repl repl = new Repl();
             Pilha aux = new Pilha();
             String[] posfixa = this.posfixa.split("");
             String[] operadores = {"+","-","*","/"};
-            boolean operador = false;
+            boolean operador;
             for(int i=0;i<this.posfixa.length();i++){
+                operador = false;
                 for(int j=0;j<4;j++){
                     if(posfixa[i] == operadores[j]){
                         operador = true;
@@ -105,10 +107,22 @@ public class Avaliador {
                     }
                 }
                 if(!operador){
-                    aux.push("" + Repl.valores(posfixa[i]));
+                    aux.push("" + repl.valores(posfixa[i]));
+                }else{
+                    if(posfixa[i] == "+"){
+                        aux.push("" + (Integer.parseInt(aux.pop()) + Integer.parseInt(aux.pop())));
+                    }else if(posfixa[i] == "-"){
+                        int subtrator = Integer.parseInt(aux.pop());
+                        aux.push("" + (Integer.parseInt(aux.pop()) - subtrator));
+                    }else if(posfixa[i] == "*"){
+                        aux.push("" + (Integer.parseInt(aux.pop()) * Integer.parseInt(aux.pop())));
+                    }else{
+                        int divisor = Integer.parseInt(aux.pop());
+                        aux.push("" + (Integer.parseInt(aux.pop()) / divisor));
+                    }
                 }
             }
-            return 0;
-        } catch (Exception e) {return 0;}
+            return aux.pop();
+        } catch (Exception e) {return "";}
     }
 }

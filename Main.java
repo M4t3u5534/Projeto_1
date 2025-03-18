@@ -46,7 +46,7 @@ public class Main {
                     return;
                 }else if(avaliador.verificar()){
                     try{
-                        System.out.println(avaliador.converter());
+                        System.out.println(avaliador.resolver());
                     } catch (Exception e){
                         System.out.println("Excessao");
                         scanner.close();
