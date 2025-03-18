@@ -3,7 +3,7 @@
 //Pedro Carvalho - 10418861
 public class Avaliador {
     private String infixa;
-    private String posfixa = "";
+    private String posfixa;
     private String expressao = "";
 
     public Avaliador(){
@@ -61,8 +61,9 @@ public class Avaliador {
         }
     }
 
-    public String converter()throws Exception{
+    public void converter()throws Exception{
         Pilha aux = new Pilha();
+        this.posfixa = "";
         String[] textoAux = this.expressao.split("");
         byte topo = -1;
         for(byte i=0;i<this.expressao.length();i++){
@@ -103,7 +104,6 @@ public class Avaliador {
         while(!aux.isEmpty()){
             this.posfixa += aux.pop();
         }
-        return this.posfixa;
     }
 
     public String resolver(Repl repl)throws Exception{
