@@ -1,3 +1,6 @@
+// Carolina Lee - 10440304
+// Mateus Ribeiro Cerqueira - 10443901
+//Pedro Carvalho - 10418861
 public class Repl {
     private String[] dicionario = new String[50];
     private byte indice = 0;

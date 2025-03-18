@@ -1,3 +1,6 @@
+// Carolina Lee - 10440304
+// Mateus Ribeiro Cerqueira - 10443901
+//Pedro Carvalho - 10418861
 public class Pilha {
     private int TAM_PILHA = 50;
     private int topoPilha;
