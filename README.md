@@ -17,7 +17,7 @@
 - #### Parênteses: ( ).
 #### _Variáveis_
 - #### A-Z, case insensitive.
-### _REPL: Comandos válidos (case insensitive)_
+## _REPL: Comandos válidos (case insensitive)_
 - #### Expressão matemática infixa - Após validação, exibe o resultado em tela.
 - #### VAR = VALUE - Atribui um valor para uma variável, sendo: VAR: Variável (A-Z). VALUE: Número real.
 - #### VARS - Lista somente as variáveis com valores definidos e seus respectivos valores.
