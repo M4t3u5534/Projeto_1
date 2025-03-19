@@ -25,7 +25,7 @@ public class Avaliador {
         else{
             for(byte i=0;i<this.expressao.length();i++){
                 operador = false;
-                for(byte j=0;j<6;j++){
+                for(byte j=0;j<7;j++){
                     if(this.expressao.charAt(i) == operadores[j]){
                         operador = true;
                         break;
@@ -39,7 +39,7 @@ public class Avaliador {
             }
             for(byte i=1;i<this.expressao.length();i+=2){
                 operador = false;
-                for(byte j=0;j<6;j++){
+                for(byte j=0;j<7;j++){
                     if(this.expressao.charAt(i-1) == operadores[j]){
                         operador = true;
                         break;
@@ -111,11 +111,11 @@ public class Avaliador {
         Pilha aux = new Pilha();
         converter();
         String[] posfixa = this.posfixa.split("");
-        String[] operadores = {"+","-","*","/"};
+        String[] operadores = {"+","-","*","/","^"};
         boolean operador;
         for(int i=0;i<this.posfixa.length();i++){
             operador = false;
-            for(int j=0;j<4;j++){
+            for(int j=0;j<5;j++){
                 if(posfixa[i].equals(operadores[j])){
                     operador = true;
                     break;
@@ -129,15 +129,18 @@ public class Avaliador {
                 }
             }else{
                 if(posfixa[i].equals("+")){
-                    aux.push("" + (Integer.parseInt(aux.pop()) + Integer.parseInt(aux.pop())));
+                    aux.push("" + (Double.parseDouble(aux.pop()) + Double.parseDouble(aux.pop())));
                 }else if(posfixa[i].equals("-")){
-                    int subtrator = Integer.parseInt(aux.pop());
-                    aux.push("" + (Integer.parseInt(aux.pop()) - subtrator));
+                    double subtrator = Double.parseDouble(aux.pop());
+                    aux.push("" + (Double.parseDouble(aux.pop()) - subtrator));
                 }else if(posfixa[i].equals("*")){
-                    aux.push("" + (Integer.parseInt(aux.pop()) * Integer.parseInt(aux.pop())));
+                    aux.push("" + (Double.parseDouble(aux.pop()) * Double.parseDouble(aux.pop())));
+                }else if(posfixa[i].equals("^")){
+                    double expoente = Double.parseDouble(aux.pop());
+                    aux.push("" + (Math.pow(Double.parseDouble(aux.pop()),expoente)));
                 }else{
-                    int divisor = Integer.parseInt(aux.pop());
-                    aux.push("" + (Integer.parseInt(aux.pop()) / divisor));
+                    double divisor = Double.parseDouble(aux.pop());
+                    aux.push("" + (Double.parseDouble(aux.pop()) / divisor));
                 }
             }
         }

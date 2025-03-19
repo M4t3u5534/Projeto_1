@@ -4,7 +4,10 @@
 public class Repl {
     private String[] dicionario = new String[50];
     private byte indice = 0;
-    Pilha gravacao = new Pilha();
+    private Pilha gravacao = new Pilha();
+    private String[] gravacaoAux = new String[50];
+    private int tamanhoGravacao = 0;
+    private int indiceAux = 0;
 
     public void escrever(String variavel){
         variavel = variavel.toUpperCase();
@@ -16,11 +19,11 @@ public class Repl {
         return;
     }
 
-    public int valores(String variavel)throws Exception{
+    public double valores(String variavel)throws Exception{
         variavel = variavel.toUpperCase();
         for(int i=0;i<this.indice;i+=2){
             if (variavel.equals(this.dicionario[i])) {
-                return Integer.parseInt(this.dicionario[i+1]);
+                return (Double.parseDouble(this.dicionario[i+1]));
             }
         }
         System.out.println("Variavel " + variavel + " nao definida!");
@@ -44,6 +47,8 @@ public class Repl {
     public void rec(String digitado, int gravados){
         try {
             gravacao.push(digitado);
+            gravacaoAux[tamanhoGravacao] = digitado;
+            tamanhoGravacao++;
         } catch (Exception e) {}
     }
 
@@ -56,12 +61,8 @@ public class Repl {
     }
 
     public void play(){
-        Pilha aux = new Pilha();
         try {
-            while(!gravacao.isEmpty()){
-                aux.push(gravacao.pop());
-            }
-            if(aux.isEmpty()){
+            if(gravacao.isEmpty()){
                 System.out.println("Não há gravação para ser reproduzida.");
             }
             else{
@@ -70,8 +71,10 @@ public class Repl {
                 Repl repl = new Repl();
                 String verificacao = "";
                 String frase = "";
-                while(!aux.isEmpty()){
-                    frase = aux.pop();
+                indiceAux = tamanhoGravacao-1;
+                while(indiceAux != -1){
+                    frase = gravacaoAux[indiceAux];
+                    indiceAux--;
                     verificacao = frase.replaceAll(" ","");
                     avaliador.setExpressao(verificacao);
                     if(verificacao.equalsIgnoreCase("VARS")){repl.vars();
