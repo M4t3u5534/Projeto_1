@@ -33,7 +33,7 @@ public class Main {
                     gravados = 1;
                 }
                 if(!invalido){
-                    repl.rec(verificacao, gravados);
+                    repl.rec(verificacao);
                     System.out.println("(REC: " + gravados + "/10) " + verificacao);
                     gravados++;
                 }
@@ -60,7 +60,7 @@ public class Main {
                 }else if(verificacao.equalsIgnoreCase("VARS")){repl.vars();
                 }else if(verificacao.equalsIgnoreCase("RESET")){repl.reset();
                 }else if(verificacao.equalsIgnoreCase("ERASE")){
-                    repl.apagar(gravados);
+                    repl.apagar();
                     gravados = 0;
                     System.out.println("Gravação apagada.");
                 }else if(verificacao.equalsIgnoreCase("PLAY")){repl.play();

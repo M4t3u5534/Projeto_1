@@ -7,8 +7,9 @@ public class Repl {
     private Pilha gravacao = new Pilha();
     private String[] gravacaoAux = new String[50];
     private int tamanhoGravacao = 0;
-    private int indiceAux = 0;
 
+    /* Escreve a variável e seu valor no dicionário criado acima.
+     */
     public void escrever(String variavel){
         variavel = variavel.toUpperCase();
         String[] aux = variavel.split("=");
@@ -19,6 +20,8 @@ public class Repl {
         return;
     }
 
+    /* Consulta o dicionário e retorna o valor da variável desejada, ou escreve que a variável em quastão não está definida. 
+     */
     public double valores(String variavel)throws Exception{
         variavel = variavel.toUpperCase();
         for(int i=0;i<this.indice;i+=2){
@@ -30,6 +33,8 @@ public class Repl {
         throw new Exception();
     }
 
+    /* Escreve todas as variáveis definidas e seus respectivos valores, ou escreve que não há variáveis definidas.
+     */
     public void vars(){
         boolean loop = false;
         for(int i=0;i<indice;i+=2){
@@ -39,12 +44,16 @@ public class Repl {
         if(!loop)System.out.println("Nenhuma variavel definida");
     }
 
+    /* Reinicia o dicionário removendo todas as variáveis.
+     */
     public void reset(){
         this.indice = 0;
         System.out.println("Variaveis reiniciadas");
     }
 
-    public void rec(String digitado, int gravados){
+    /* Grava o texto digitado(digitado) na pilha gravacao e uma cópia no vetor de string gravacaoAux.
+     */
+    public void rec(String digitado){
         try {
             gravacao.push(digitado);
             gravacaoAux[tamanhoGravacao] = digitado;
@@ -52,14 +61,19 @@ public class Repl {
         } catch (Exception e) {}
     }
 
-    public void apagar(int gravados){
+    /* Apaga a gravação removendo todos elementos da pilha gravacao.
+     */
+    public void apagar(){
         try {
-            for(int i=0;i<gravados;i++){
+            for(int i=0;i<tamanhoGravacao;i++){
                 gravacao.pop();
             }
         } catch (Exception e) {}
     }
 
+    /* Executa os comandos gravados durante a gravação, mostrando-os antes de executá-los e informando caso não haja gravação.
+     * Funciona de forma semelhante ao 'Main'.
+     */
     public void play(){
         try {
             if(gravacao.isEmpty()){
@@ -71,10 +85,8 @@ public class Repl {
                 Repl repl = new Repl();
                 String verificacao = "";
                 String frase = "";
-                indiceAux = tamanhoGravacao-1;
-                while(indiceAux != -1){
-                    frase = gravacaoAux[indiceAux];
-                    indiceAux--;
+                for(int i=0;i<tamanhoGravacao;i++){
+                    frase = gravacaoAux[i];
                     verificacao = frase.replaceAll(" ","");
                     avaliador.setExpressao(verificacao);
                     if(verificacao.equalsIgnoreCase("VARS")){repl.vars();
