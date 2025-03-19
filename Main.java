@@ -15,6 +15,9 @@ public class Main {
         String[] invalidos = {"REC","PLAY","ERASE","EXIT"};
         while (true) {
             verificacao = scanner.nextLine();
+            /* Se o programa estiver em estado de gravação(REC), é executado apenas o if abaixo, gravando o que é escrito,
+             * informando o que é invalido para a gravação e verificando se o usuário digitou 'STOP' para finalizar a gravação.
+            */
             if(gravando && gravados<11){
                 boolean invalido = false;
                 for(int i=0;i<4;i++){
@@ -34,9 +37,14 @@ public class Main {
                     System.out.println("(REC: " + gravados + "/10) " + verificacao);
                     gravados++;
                 }
+            /* Caso o programa não estiver em estado de gravação(REC),
+             * ele lê o texto digitado e executa os comandos necessários normalmente.
+            */
             }else{
                 verificacao = verificacao.replaceAll(" ","");
                 avaliador.setExpressao(verificacao);
+                /* Cadeia de if(s) e else(s) para verificar em qual caso o texto digitado pelo usuário se encaixa.
+                 */
                 if(verificacao.length() == 1){
                     try {
                         System.out.println(repl.valores(verificacao));
